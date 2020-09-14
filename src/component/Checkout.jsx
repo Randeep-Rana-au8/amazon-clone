@@ -1,10 +1,14 @@
 import React from "react";
 import { useStateValue } from "../StateProvider";
 import "./Checkout.css";
+import CheckoutProduct from "./CheckoutProduct";
 import Subtotal from "./Subtotal";
 
 function Checkout() {
   const [{ basket }, dispatch] = useStateValue();
+  const removeItem = () => {
+    dispatch({ type: "REMOVE_ITEM" });
+  };
   return (
     <div className="checkout">
       <div className="checkout__left">
@@ -17,20 +21,12 @@ function Checkout() {
           <h2 className="checkout__title">Shopping Basket</h2>
         </div>
         {basket?.map((item) => (
-          <div className="checkout__product">
-            <img className="checkout__productImage" src={item.image} alt="" />
-            <div>
-              <p>{item.title}</p>
-              <div className="product__rating">
-                {Array(item.rating)
-                  .fill()
-                  .map((_, i) => (
-                    <p>⭐</p>
-                  ))}
-              </div>
-              <p>${item.price}</p>
-            </div>
-          </div>
+          <CheckoutProduct
+            title={item.title}
+            image={item.image}
+            rating={item.rating}
+            price={item.price}
+          />
         ))}
       </div>
       <div className="checkout__right">
